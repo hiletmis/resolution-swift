@@ -166,7 +166,7 @@ public class Resolution {
     public func multiChainAddress(domain: String, ticker: String, chain: String, completion: @escaping StringResultConsumer ) {
         DispatchQueue.global(qos: .utility).async { [self] in
             do {
-                let preparedDomain = try self.prepare(domain: domain),
+                let preparedDomain = try self.prepare(domain: domain)
                 let service = try self.getServiceOf(domain: preparedDomain)
                 
                 let recordKey = "crypto.\(ticker.uppercased()).version.\(chain.uppercased()).address"
