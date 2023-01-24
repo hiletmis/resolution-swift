@@ -164,17 +164,17 @@ public class Resolution {
     /// - Parameter chain: - chain version like ERC20, OMNI, TRON and others
     /// - Parameter completion: A callback that resolves `Result` with a `multiChain Address` for a specific ticker and chain
     public func multiChainAddress(domain: String, ticker: String, chain: String, completion: @escaping StringResultConsumer ) {
-        DispatchQueue.global(qos: .utility).async { [weak self] in
+        DispatchQueue.global(qos: .utility).async { [self] in
             do {
-                guard let preparedDomain = try self?.prepare(domain: domain),
-                    let service = try self?.getServiceOf(domain: preparedDomain) else {
+                guard let preparedDomain = try self.prepare(domain: domain),
+                    let service = try self.getServiceOf(domain: preparedDomain) else {
                     throw ResolutionError.methodNotSupported
                 }
                 let recordKey = "crypto.\(ticker.uppercased()).version.\(chain.uppercased()).address"
                 let result = try service.record(domain: preparedDomain, key: recordKey)
                 completion(.success(result))
             } catch {
-                self?.catchError(error, completion: completion)
+                self.catchError(error, completion: completion)
             }
         }
     }
